@@ -1,0 +1,48 @@
+.signup-container {
+    height: 100vh;
+  }
+  
+  .image-section {
+    position: relative;
+    height: 100%;
+  }
+  
+  .img-fluid {
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .quote {
+    font-size: 1.25rem;
+  }
+  
+  .author {
+    font-weight: bold;
+  }
+  
+  .form-section {
+    background-color: #f7f7f7;
+    padding: 40px;
+  }
+  
+  .signup-form {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .signup-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .social-login button {
+    width: 100%;
+  }
+  

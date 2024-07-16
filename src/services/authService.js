@@ -15,9 +15,11 @@ const login = async (email, password) => {
       {
         headers: {
           "X-CSRFToken": getCSRFToken(),
+          "Content-Type": "application/json",
         },
       }
     );
+
     if (response.data.token) {
       localStorage.setItem("user", JSON.stringify(response.data));
     }
@@ -26,6 +28,7 @@ const login = async (email, password) => {
     throw new Error("Login failed. Please check your credentials.");
   }
 };
+
 
 const signup = (username, email, password) => {
   try {
