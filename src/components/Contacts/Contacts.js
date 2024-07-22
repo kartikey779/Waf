@@ -3,6 +3,8 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { RiAddCircleFill } from "react-icons/ri";
 import { Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const Contacts = () => {
   const users = [
@@ -161,12 +163,31 @@ const Contacts = () => {
 
   const totalPages = Math.ceil(users.length / itemsPerPage);
 
+
+  const exportToExcel = () => {
+    // Create a new workbook and a sheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(users);
+
+    // Append the sheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    // Generate a buffer
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+    // Create a Blob from the buffer
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+
+    // Save the Blob as an Excel file
+    saveAs(blob, 'table_data.xlsx');
+};
+
   return (
     <div className="container  mt-4 ">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Contacts</h2>
         <div>
-          <button className="btn border mx-2">
+          <button className="btn border mx-2" onClick={exportToExcel}>
             <i className="bi bi-apple px-1">
               <MdOutlineFileDownload />
             </i>

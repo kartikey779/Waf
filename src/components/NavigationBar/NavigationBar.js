@@ -1,11 +1,10 @@
 import React from "react";
 import { FaBuysellads } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
     <nav
-      class="navbar navbar-expand-lg navbar-light d-flex justify-content-around"
+      class="navbar navbar-expand-lg navbar-light d-flex justify-content-between"
       style={{ borderRadius: "52px",backgroundColor:"#FEFEFA",color:"#1B1B1B" }}
     >
       <span className="d-flex">

@@ -70,28 +70,7 @@ const SignupPage = () => {
               style={{ filter: "brightness(30%)" }}
             />
             <div className="overlay">
-              {/* <p className="quote">
-                <div
-                  className="features-list"
-                  style={{ fontFamily: "Roboto Serif", wordSpacing: "-2px" }}
-                >
-                  <ul>
-                    <li>
-                      <strong>Targeted Advertising:</strong> Allow advertisers
-                      to precisely target their audience based on demographics,
-                      location, interests, and behavior, ensuring that ads reach
-                      the most relevant users.
-                    </li>
-                    <li>
-                      <strong>Ad Formats:</strong> Support multiple ad formats
-                      such as text, image, video, and carousel ads to provide
-                      versatility in how advertisers can engage with their
-                      audience.
-                    </li>
-                  </ul>
-                </div>
-              </p>
-              <p className="author">our Company</p> */}
+              
             </div>
           </div>
         </Col>

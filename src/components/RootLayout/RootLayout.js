@@ -6,7 +6,7 @@ import NavigationBar from '../NavigationBar/NavigationBar';
 
 function RootLayout() {
   return (
-    <div style={{ backgroundColor: "#F5F5F5", height: "100%", padding: "3rem",fontFamily:"Montserrat, sans-serif", }}>
+    <div style={{ backgroundColor: "#F5F5F5", height: "100%", padding: "2rem",fontFamily:"Montserrat, sans-serif", }}>
       <NavigationBar />
       <main>
         <Outlet />
