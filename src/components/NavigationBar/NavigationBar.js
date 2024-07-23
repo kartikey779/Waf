@@ -46,10 +46,10 @@ const NavigationBar = () => {
             <li class="nav-item dropdown mx-5">
               <a
                 class="nav-link dropdown-toggle"
-                href="practice"
+                href="#dropdown"
                 id="navbarDropdown"
                 role="button"
-                data-toggle="dropdown"
+                data-toggle="dropdown-menu"
                 aria-haspopup="true"
                 aria-expanded="false"
               >

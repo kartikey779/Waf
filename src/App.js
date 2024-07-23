@@ -1,6 +1,7 @@
 // src/App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import { useEffect } from 'react';
 import RootLayout from './components/RootLayout/RootLayout';
 import Home from './components/Home/Home';
 import LoginPage from './pages/LoginPage';
@@ -11,8 +12,14 @@ import AdCampaignForm from './components/AdCampaign/AdCampaignForm';
 import AdCampaignList from './components/AdCampaign/AdCampaignList';
 import Practice from './pages/Practice';
 import Contacts from './components/Contacts/Contacts';
+import { isMobile } from 'react-device-detect';
 
 function App() {
+  useEffect(() => {
+    if(isMobile){
+      alert('bola tha na mobile me nahi chalana! :)')
+    }
+  });
   return (
     <Router>
       <Routes>
