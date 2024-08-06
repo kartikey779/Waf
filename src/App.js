@@ -1,42 +1,49 @@
 // src/App.js
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.css';
-import { useEffect } from 'react';
-import RootLayout from './components/RootLayout/RootLayout';
-import Home from './components/Home/Home';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import DoctorDashboard from './components/Dashboard/DoctorDashboard';
-import PatientDashboard from './components/Dashboard/PatientDashboard';
-import AdCampaignForm from './components/AdCampaign/AdCampaignForm';
-import AdCampaignList from './components/AdCampaign/AdCampaignList';
-import Practice from './pages/Practice';
-import Contacts from './components/Contacts/Contacts';
-import { isMobile } from 'react-device-detect';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.css";
+import { useEffect, useState } from "react";
+import RootLayout from "./components/RootLayout/RootLayout";
+import Home from "./components/Home/Home";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import Contacts from "./components/Contacts/Contacts";
+import { isMobile } from "react-device-detect";
 
 function App() {
+  const [isUser, setUser] = useState(false);
+
   useEffect(() => {
-    if(isMobile){
-      alert('bola tha na mobile me nahi chalana! :)')
+    const storedAuth = localStorage.getItem("user");
+    if (storedAuth !== null) {
+      setUser(true);
     }
-  });
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<SignupPage />} />
-          <Route path="ads" element={<AdCampaignForm />} />
-          <Route path="adslist" element={<AdCampaignList />} />
-          <Route path="dashboard/doctor" element={<DoctorDashboard />} />
-          <Route path="dashboard/patient" element={<PatientDashboard />} />
-          <Route path="practice" element={<Practice />} />
-          <Route path="contacts" element={<Contacts />} />
-        </Route>
-      </Routes>
-    </Router>
-  );
+    if (isMobile) {
+      alert("bola tha na mobile me nahi chalana! :)");
+    }
+  }, []);
+
+  const routes = [
+    {
+      path: "/",
+      element: <RootLayout />,
+      children: [
+        {
+          path: "/",
+          element: isUser ? <Home /> : <LoginPage/>,
+        },
+        { path: "/*", element: <Home /> },
+        { path: "/contacts", element: <Contacts /> },
+      ],
+    },
+    { path: "/register", element: <SignupPage /> },
+    { path: "/login", element: <LoginPage /> },
+  ];
+  const router = createBrowserRouter(routes);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

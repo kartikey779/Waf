@@ -1,15 +1,17 @@
 // src/LoginForm.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import authService from "../services/authService";
 import Photo from "../static/logo192.jpg";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { FaApple, FaGoogle, FaTwitter } from "react-icons/fa";
 
 const LoginPage = () => {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -18,14 +20,21 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await authService.login(credentials.email, credentials.password);
-      // Redirect to the appropriate dashboard based on user type
-      navigate("/dashboard/doctor"); // or /dashboard/patient based on user type
+      await authService.login(credentials.username, credentials.password);
+      alert("logged in successfully");
     } catch (error) {
-      navigate("/register");
       setError(error.message);
     }
   };
+
+  const handleLogout = () => {
+    try {
+      authService.logout();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   return (
     <Container
       className="d-flex justify-content-center align-items-center bg-white "
@@ -68,13 +77,13 @@ const LoginPage = () => {
           </Row>
           <div className="text-center mb-3">OR</div>
           <Form.Group controlId="formEmail" className="mb-3">
-            <Form.Label className="mb-0">E-Mail Address</Form.Label>
+            <Form.Label className="mb-0">Username</Form.Label>
             <Form.Control
               className="mt-0"
-              name="email"
-              type="email"
-              placeholder="Enter your email..."
-              value={credentials.email}
+              name="username"
+              type="text"
+              placeholder="Enter your username..."
+              value={credentials.username}
               onChange={handleChange}
               style={{ padding: "8px" }}
             />
@@ -95,14 +104,14 @@ const LoginPage = () => {
             <Form.Check type="checkbox" label="Remember me" />
           </Form.Group>
           <div className="text-end mb-3">
-            <a href="#forgot-password">Forgot password?</a>
+            <span onClick={handleLogout}>Forgot password?</span>
           </div>
-          {error && <p className="error">{error}</p>}
+          {error && <p className="error alert alert-danger">{error}</p>}
           <Button variant="dark" type="submit" className="w-100">
             Sign in
           </Button>
           <div className="text-center mt-3">
-            Don't have an account yet? <a href="register">Sign Up</a>
+            Don't have an account yet? <Link to="/register">Sign Up</Link>
           </div>
         </Form>
       </div>

@@ -1,7 +1,20 @@
 import React from "react";
 import { FaBuysellads } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import authService from "../../services/authService";
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () =>{
+    try{
+      authService.logout();
+      navigate("/")
+    }
+    catch(error){
+      console.log(error);
+    }
+  };
   return (
     <nav
       class="navbar navbar-expand-lg navbar-light d-flex justify-content-between"
@@ -29,24 +42,24 @@ const NavigationBar = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto ">
             <li class="nav-item active mx-5">
-              <a class="nav-link" href="/">
+              <Link class="nav-link" to={""}>
                 Dashboard
-              </a>
+              </Link>
             </li>
             <li class="nav-item mx-5">
-              <a class="nav-link" href="contacts">
+              <Link class="nav-link" to="contacts">
                 Contacts
-              </a>
+              </Link>
             </li>
             <li class="nav-item mx-5">
-              <a class="nav-link" href="/ads">
+              <Link class="nav-link" to="/ads">
                 About
-              </a>
+              </Link>
             </li>
             <li class="nav-item dropdown mx-5">
-              <a
+              <Link
                 class="nav-link dropdown-toggle"
-                href="#dropdown"
+                to=""
                 id="navbarDropdown"
                 role="button"
                 data-toggle="dropdown-menu"
@@ -54,9 +67,9 @@ const NavigationBar = () => {
                 aria-expanded="false"
               >
                 Dropdown
-              </a>
+              </Link>
               <div class="dropdown-menu" >
-                <a class="dropdown-item" href=".">
+                <a href=".." class="dropdown-item" >
                   Action
                 </a>
                 <a class="dropdown-item" href=".">
@@ -72,7 +85,7 @@ const NavigationBar = () => {
         </div>
       </span>
 
-      <span className="ml-5" >
+      <span className="ml-5" onClick={handleLogout}>
         <span class="btn" style={{ borderRadius: "52px",backgroundColor:"#1B1B1B",color:"#FEFEFA" }} >
           <img
             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
@@ -81,6 +94,7 @@ const NavigationBar = () => {
             alt="Avatar"
             loading="lazy"
           />
+
           Profile
         </span>
       </span>

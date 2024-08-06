@@ -1,157 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { RiAddCircleFill } from "react-icons/ri";
 import { Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import ContactsForm from "../MessageForm/ContactsForm";
+import Popup from "reactjs-popup";
+import axios from "axios";
 
 const Contacts = () => {
-  const users = [
-    {
-      name: "Jane Cooper",
-      status: "Valid",
-      address: "Delhi",
-      phoneNo: "8989898989",
-      tags: ["gaming", ""],
-    },
-    {
-      name: "Wade Warren",
-      status: "Onboarding",
-      address: "Mumbai",
-      phoneNo: "0909099090",
-      tags: ["music", ""],
-    },
-    {
-      name: "Esther Howard",
-      status: "Valid",
-      address: "Lucknow",
-      phoneNo: "2323232323",
-      tags: ["film", "3"],
-    },
-    {
-      name: "John Doe",
-      status: "Inactive",
-      address: "Kolkata",
-      phoneNo: "1234567890",
-      tags: ["sports", "reading"],
-    },
-    {
-      name: "Alice Johnson",
-      status: "Valid",
-      address: "Bangalore",
-      phoneNo: "9876543210",
-      tags: ["travel", "cooking"],
-    },
-    {
-      name: "Bob Smith",
-      status: "Onboarding",
-      address: "Hyderabad",
-      phoneNo: "5555555555",
-      tags: ["fitness", "gaming"],
-    },
-    {
-      name: "Charlie Brown",
-      status: "Valid",
-      address: "Chennai",
-      phoneNo: "4444444444",
-      tags: ["photography", "blogging"],
-    },
-    {
-      name: "Diana Prince",
-      status: "Inactive",
-      address: "Pune",
-      phoneNo: "3333333333",
-      tags: ["writing", "yoga"],
-    },
-    {
-      name: "Ethan Hunt",
-      status: "Valid",
-      address: "Jaipur",
-      phoneNo: "2222222222",
-      tags: ["movies", "hiking"],
-    },
-    {
-      name: "Fiona Gallagher",
-      status: "Onboarding",
-      address: "Ahmedabad",
-      phoneNo: "1111111111",
-      tags: ["gardening", "cooking"],
-    },
-    {
-      name: "George Clooney",
-      status: "Valid",
-      address: "Surat",
-      phoneNo: "6666666666",
-      tags: ["acting", "directing"],
-    },
-    {
-      name: "Hannah Montana",
-      status: "Inactive",
-      address: "Nagpur",
-      phoneNo: "7777777777",
-      tags: ["singing", "dancing"],
-    },
-    {
-      name: "Ian Somerhalder",
-      status: "Valid",
-      address: "Indore",
-      phoneNo: "8888888888",
-      tags: ["modeling", "acting"],
-    },
-    {
-      name: "Jack Sparrow",
-      status: "Onboarding",
-      address: "Patna",
-      phoneNo: "9999999999",
-      tags: ["piracy", "adventure"],
-    },
-    {
-      name: "Karen Gillan",
-      status: "Valid",
-      address: "Bhopal",
-      phoneNo: "1010101010",
-      tags: ["acting", "comedy"],
-    },
-    {
-      name: "Leonardo DiCaprio",
-      status: "Inactive",
-      address: "Ludhiana",
-      phoneNo: "2020202020",
-      tags: ["acting", "environment"],
-    },
-    {
-      name: "Monica Geller",
-      status: "Valid",
-      address: "Amritsar",
-      phoneNo: "3030303030",
-      tags: ["cooking", "cleaning"],
-    },
-    {
-      name: "Nancy Drew",
-      status: "Onboarding",
-      address: "Rajkot",
-      phoneNo: "4040404040",
-      tags: ["detective", "writing"],
-    },
-    {
-      name: "Oscar Wilde",
-      status: "Valid",
-      address: "Jodhpur",
-      phoneNo: "5050505050",
-      tags: ["writing", "poetry"],
-    },
-    {
-      name: "Penny Lane",
-      status: "Inactive",
-      address: "Thane",
-      phoneNo: "6060606060",
-      tags: ["music", "art"],
-    },
-  ];
-
+  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/message/contacts/');
+      setUsers(response.data);
+    } catch (error) {
+      console.error("There was an error fetching the contacts data:", error);
+    }
+  };
 
   const handleClick = (number) => {
     setCurrentPage(number);
@@ -162,7 +36,6 @@ const Contacts = () => {
   const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(users.length / itemsPerPage);
-
 
   const exportToExcel = () => {
     // Create a new workbook and a sheet
@@ -179,11 +52,11 @@ const Contacts = () => {
     const blob = new Blob([wbout], { type: 'application/octet-stream' });
 
     // Save the Blob as an Excel file
-    saveAs(blob, 'table_data.xlsx');
-};
+    saveAs(blob, 'contacts_data.xlsx');
+  };
 
   return (
-    <div className="container  mt-4 ">
+    <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Contacts</h2>
         <div>
@@ -193,12 +66,20 @@ const Contacts = () => {
             </i>
             Download CSV
           </button>
-          <button className="btn" style={{ borderRadius: "52px",backgroundColor:"#1B1B1B",color:"#FEFEFA" }}>
-            <i className="bi bi-apple px-1">
-              <RiAddCircleFill />
-            </i>
-            Add user
-          </button>
+          <Popup
+            trigger={
+              <button className="btn" style={{ borderRadius: "52px", backgroundColor: "#1B1B1B", color: "#FEFEFA" }}>
+                <i className="bi bi-apple px-1">
+                  <RiAddCircleFill />
+                </i>
+                Add user
+              </button>
+            }
+            modal
+            nested
+          >
+            <ContactsForm />
+          </Popup>
         </div>
       </div>
       <table className="table">
@@ -225,15 +106,14 @@ const Contacts = () => {
                 <span
                   className="badge"
                   style={{
-                    backgroundColor:
-                      user.status === "Valid" ? "rgba(128, 255, 0, 0.3)" : "rgba(255, 8, 0, 0.3)",
+                    backgroundColor: user.status === "Valid" ? "rgba(128, 255, 0, 0.3)" : "rgba(255, 8, 0, 0.3)",
                     color: user.status === "Valid" ? "rgba(0, 158, 96, 1)" : "rgba(255, 8, 0, 1)",
                   }}
                 >
                   {user.status}
                 </span>
               </td>
-              <td>{user.phoneNo}</td>
+              <td>{user.phone_number}</td>
               <td>{user.address}</td>
               <td>
                 {user.tags.map((tag, tagIndex) => (

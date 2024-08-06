@@ -4,12 +4,14 @@ import { getCSRFToken } from "../utils/csrf";
 
 const API_URL = "http://127.0.0.1:8000"; // Replace with your API URL
 
-const login = async (email, password) => {
+
+const login = async (username, password) => {
+  
   try {
     const response = await axios.post(
-      `${API_URL}/login`,
+      `${API_URL}/accounts/loginA/`,
       {
-        email,
+        username,
         password,
       },
       {
@@ -29,18 +31,22 @@ const login = async (email, password) => {
   }
 };
 
-
-const signup = (username, email, password) => {
+const signup = async (username, email, password, password2) => {
   try {
-    const response = axios.post(
-      `${API_URL}/register`,
-      { username, email, password },
+    const response = await axios.post(
+      `${API_URL}/accounts/register/`,
+      { username, email, password, password2 },
       {
         headers: {
           "X-CSRFToken": getCSRFToken(),
+          "Content-Type": "application/json",
         },
       }
     );
+    if (response.data.token){
+      const data = {token: response.data.token};
+      localStorage.setItem("user", JSON.stringify(data));
+    }
     return response.data;
   } catch (error) {
     throw new Error("Signup failed. Please try again.");

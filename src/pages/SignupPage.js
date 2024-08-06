@@ -9,17 +9,16 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../utils/validations";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    password2: "",
   });
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -35,7 +34,7 @@ const SignupPage = () => {
     if (
       !validateConfirmPassword(
         credentials.password,
-        credentials.confirmPassword
+        credentials.password2
       )
     )
       tempErrors.confirmPassword = "Passwords do not match";
@@ -50,10 +49,10 @@ const SignupPage = () => {
       await authService.signup(
         credentials.username,
         credentials.email,
-        credentials.password
+        credentials.password,
+        credentials.password2
       );
       //   console.log(credentials);
-      navigate("/login");
     } catch (error) {
       setErrors({ api: error.response?.data?.error || error.message });
     }
@@ -120,9 +119,9 @@ const SignupPage = () => {
               {/* <Form.Label>Password</Form.Label> */}
               <Form.Control
                 type="password"
-                name="confirmPassword"
+                name="password2"
                 placeholder="Confirm Password"
-                value={credentials.confirmPassword}
+                value={credentials.password2}
                 onChange={handleChange}
                 style={{ padding: "8px" }}
               />
@@ -136,7 +135,7 @@ const SignupPage = () => {
             <div className="text-center">
               <p>or</p>
               <p>
-                Already have an account? <a href="login">Sign in</a>
+                Already have an account? <Link to="/login">Sign in</Link>
               </p>
             </div>
             <div className="social-login">

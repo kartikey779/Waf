@@ -1,0 +1,18 @@
+.react-tagsinput{
+    border-radius: 0.5rem;
+}
+.react-tagsinput-remove{
+    color: #ffffff;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.react-tagsinput-tag{
+    background-color: #0d6efd;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    border: 0px;
+}
+
+.react-tagsinput-tag:hover{
+    background-color: #0d6dfdd3;
+}
